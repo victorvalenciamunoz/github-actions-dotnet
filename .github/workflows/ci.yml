@@ -1,12 +1,12 @@
-name: PR Verify
+name: CI
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 jobs:
   build:
-    name : PR Verify Job
+    name : CI
     runs-on: ubuntu-latest
 
     steps:
@@ -16,11 +16,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0
-
-      - name: Build with dotnet
-        run: dotnet build --configuration Release     
       
       - name: dotnet test
         run: dotnet test --configuration Release --no-build
 
-
+      - name: dotnet publish
+        run: dotnet publish src/GitHubActionsDotNet.Api/GitHubActionsDotNet.Api.csproj --configuration Release -o artifacts
